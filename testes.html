@@ -1,0 +1,87 @@
+<html>
+<head>
+</head>
+<body>
+<ul id="lista">
+<!--<li>um</li>
+<li>dois</li>-->
+</ul>
+</br>
+<input type="button" value="Listar" onclick="listar()"/>
+</br>
+</br>
+<input type="text" id="name"/>
+<input type="text" id="email"/>
+<input type="button" value="Adicionar" onclick="criarDados()"/>
+
+
+</body>
+
+<script src="http://cdn.wedeploy.com/api/latest/wedeploy.js"></script>
+
+<script>
+var botado = false;
+function botar() {
+p = document.getElementById('lista');
+var li = document.createElement('li');
+li.innerHTML = 'tres';
+li.setAttribute('id', 'meuId');
+p.appendChild(li);
+}
+function tirar() {
+i = document.getElementById('meuId');
+alert('Conteudo: '+i.innerHTML);
+document.getElementById('lista').removeChild(i);
+}
+
+function listar(){
+
+var data = WeDeploy.data('http://data.firstproject.wedeploy.io');
+
+/*data.match('name', "pedro")
+.get('person')
+.then(function(person) {
+  console.log(person);
+});*/
+
+data.get('person')
+.then(function(person) {
+
+    var lista = document.getElementById('lista');
+    var fLen = person.length;
+    for (i = 0; i < fLen; i++) {
+        //alert(person[i].name);
+        var li = document.createElement('li');
+        li.innerHTML = person[i].name + " - " + person[i].email;
+        li.setAttribute('id', person[i].id);
+        lista.appendChild(li);
+
+    }
+    
+  console.log(person);
+});
+
+}
+
+function criarDados(){
+
+var name = document.getElementById('name').value;
+var email = document.getElementById('email').value;
+
+var data = WeDeploy.data('http://data.firstproject.wedeploy.io');
+
+data.create('person', {
+  "name": ""+name+"",
+  "email": ""+email+""
+}).then(function(person) {
+  console.log(person);
+});
+
+
+
+}
+
+
+</script>
+
+</html>
